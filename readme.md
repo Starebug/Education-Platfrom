@@ -1,143 +1,138 @@
 # Quiz Management Backend
 
-A comprehensive backend system for managing quizzes, handling quiz creation, answer validation, and course management. Built with Node.js, Express, and MongoDB.
+Backend system for quiz management built with Node.js, Express, and MongoDB.
 
-## Technologies Used 🛠️
+## Tech Stack 🛠️
+- Node.js (Runtime)
+- Express.js (Framework)
+- MongoDB (Database)
+- Mongoose (ODM)
+- Swagger (Documentation)
 
-- **Node.js** - JavaScript runtime environment
-- **Express.js** - Web application framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - MongoDB object modeling tool
-- **Swagger** - API documentation
-
-## Installation 🚀
-
+## Setup 🚀
 ### Prerequisites
-
 - Node.js & npm ([Download](https://nodejs.org/))
-- MongoDB (local or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas))
+- MongoDB (local/[Atlas](https://www.mongodb.com/cloud/atlas))
 
-### Setup Instructions
+### Installation
+```bash
+# Clone & Navigate
+git clone <repository-url>
+cd <repository-folder>
 
-1. **Clone Repository**
-   ```bash
-   git clone <repository-url>
-   cd <repository-folder>
-   ```
+# Install Dependencies
+npm install
 
-2. **Install Dependencies**
-   ```bash
-   npm install
-   ```
+# Configure MongoDB
+cp .env.example .env
 
-3. **Configure MongoDB**
-   - Create `.env` from template:
-     ```bash
-     cp .env.example .env
-     ```
-   - Update `.env` with MongoDB URI:
-     ```
-     # For MongoDB Atlas
-     MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/<dbname>
+# Start Server
+npm run dev
+```
 
-     # For Local MongoDB
-     MONGO_URI=mongodb://localhost:27017/quiz-management
-     ```
+### Environment Setup
+```env
+# Atlas MongoDB
+MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/<dbname>
 
-4. **Start Server**
-   ```bash
-   npm run dev
-   ```
-   Server runs at `http://localhost:5000`
+# Local MongoDB
+MONGO_URI=mongodb://localhost:27017/quiz-management
+```
 
-## API Documentation 📚
+## API Reference 📚
 
-### Course Management
+### Courses
 
 #### Create Course
-- **POST** `/api/courses`
-  ```json
-  {
-    "courseId": "CS101",
-    "courseName": "Computer Science 101",
-    "description": "Introductory CS course"
-  }
-  ```
-
-#### Get Courses
-- **GET** `/api/courses` - List all courses
-- **GET** `/api/courses/:courseId` - Get specific course
-
-#### Update Course
-- **PUT** `/api/courses/:courseId`
-  ```json
-  {
-    "courseName": "Updated Course Name",
-    "description": "Updated description"
-  }
-  ```
-
-#### Delete Course
-- **DELETE** `/api/courses/:courseId`
-
-### Quiz Management
-
-#### Create Quiz
-- **POST** `/api/courses/:courseId/quizzes`
-  ```json
-  {
-    "questions": [
-      {
-        "id": "q1",
-        "question": "What is 2 + 2?",
-        "options": ["3", "4", "5", "6"],
-        "correctAnswer": "4"
-      }
-    ]
-  }
-  ```
-
-#### Get Quizzes
-- **GET** `/api/courses/:courseId/quizzes` - List course quizzes
-- **GET** `/api/quizzes/:quizId` - Get specific quiz
-
-#### Answer Validation
-- **GET** `/api/quizzes/:quizId/check-answer`
-  - Query params: `questionId`, `answer`
-  ```json
-  {
-    "message": "Correct answer"
-  }
-  ```
-
-#### Delete Quiz
-- **DELETE** `/api/quizzes/:quizId`
-
-## Error Handling ⚠️
-
-| Status Code | Description |
-|------------|-------------|
-| 200 | Success |
-| 201 | Resource Created |
-| 400 | Bad Request |
-| 404 | Not Found |
-| 500 | Server Error |
-
-## Response Examples 📝
-
-### Course Creation
+`POST /api/courses`
 ```json
+// Request
 {
   "courseId": "CS101",
   "courseName": "Computer Science 101",
   "description": "Introductory CS course"
 }
+
+// Response (201 Created)
+{
+  "message": "Course created successfully",
+  "course": {
+    "courseId": "CS101",
+    "courseName": "Computer Science 101",
+    "description": "Introductory CS course"
+  }
+}
 ```
 
-### Quiz Creation
+#### Get Courses
+`GET /api/courses`
 ```json
+// Response (200 OK)
 {
-  "courseId": "CS101",
+  "courses": [
+    {
+      "courseId": "CS101",
+      "courseName": "Computer Science 101",
+      "description": "Introductory CS course"
+    }
+  ]
+}
+```
+
+#### Get Course
+`GET /api/courses/:courseId`
+```json
+// Response (200 OK)
+{
+  "course": {
+    "courseId": "CS101",
+    "courseName": "Computer Science 101",
+    "description": "Introductory CS course"
+  }
+}
+
+// Error (404 Not Found)
+{
+  "message": "Course not found"
+}
+```
+
+#### Update Course
+`PUT /api/courses/:courseId`
+```json
+// Request
+{
+  "courseName": "Updated Course Name",
+  "description": "Updated description"
+}
+
+// Response (200 OK)
+{
+  "message": "Course updated successfully",
+  "course": {
+    "courseId": "CS101",
+    "courseName": "Updated Course Name",
+    "description": "Updated description"
+  }
+}
+```
+
+#### Delete Course
+`DELETE /api/courses/:courseId`
+```json
+// Response (200 OK)
+{
+  "message": "Course deleted successfully"
+}
+```
+
+### Quizzes
+
+#### Create Quiz
+`POST /api/courses/:courseId/quizzes`
+```json
+// Request
+{
   "questions": [
     {
       "id": "q1",
@@ -147,6 +142,77 @@ A comprehensive backend system for managing quizzes, handling quiz creation, ans
     }
   ]
 }
+
+// Response (201 Created)
+{
+  "message": "Quiz created successfully",
+  "quiz": {
+    "quizId": "quiz1",
+    "courseId": "CS101",
+    "questions": [
+      {
+        "id": "q1",
+        "question": "What is 2 + 2?",
+        "options": ["3", "4", "5", "6"],
+        "correctAnswer": "4"
+      }
+    ]
+  }
+}
 ```
 
-For detailed API specifications, refer to the Swagger documentation included with the project.
+#### Get Course Quizzes
+`GET /api/courses/:courseId/quizzes`
+```json
+// Response (200 OK)
+{
+  "quizzes": [
+    {
+      "quizId": "quiz1",
+      "courseId": "CS101",
+      "questions": [
+        {
+          "id": "q1",
+          "question": "What is 2 + 2?",
+          "options": ["3", "4", "5", "6"],
+          "correctAnswer": "4"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### Validate Answer
+`GET /api/quizzes/:quizId/check-answer?questionId=q1&answer=4`
+```json
+// Response (200 OK)
+{
+  "message": "Correct answer"
+}
+
+// Error (400 Bad Request)
+{
+  "message": "Incorrect answer"
+}
+```
+
+#### Delete Quiz
+`DELETE /api/quizzes/:quizId`
+```json
+// Response (200 OK)
+{
+  "message": "Quiz deleted successfully"
+}
+```
+Status Codes ⚠️
+200 - Success: Successful request completion\
+201 - Created: Resource successfully created\
+400 - Bad Request: Invalid request or parameters\
+404 - Not Found: Requested resource not found\
+500 - Server Error: Internal server error\
+
+Notes
+
+Check Swagger docs for detailed specifications\
+Ensure MongoDB is running before startup
