@@ -33,6 +33,8 @@ This is the backend for a Quiz Management System. It handles operations such as 
    cd <repository-folder>
 Install dependencies:
 
+bash
+Copy code
 npm install
 Set up the MongoDB connection:
 
@@ -42,6 +44,8 @@ Obtain the connection string (usually starts with mongodb+srv://).
 If you're using local MongoDB, ensure MongoDB is installed and running locally.
 Create a .env file by copying the example provided:
 
+bash
+Copy code
 cp .env.example .env
 Configure the .env file:
 
@@ -54,10 +58,14 @@ Copy code
 MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/<dbname>?retryWrites=true&w=majority
 Example for local MongoDB:
 
+bash
+Copy code
 MONGO_URI=mongodb://localhost:27017/quiz-management
 Start the application:
 
-npm run dev
+bash
+Copy code
+npm start
 The server will be running at http://localhost:5000.
 
 API Endpoints
@@ -67,23 +75,25 @@ Method: POST
 Endpoint: /api/courses
 Description: Create a new course.
 Request Body:
+json
+Copy code
 {
   "courseId": "CS101",
   "courseName": "Computer Science 101",
   "description": "Introductory course to computer science."
 }
 Response:
+json
+Copy code
 {
   "courseId": "CS101",
   "courseName": "Computer Science 101",
   "description": "Introductory course to computer science."
 }
-
 2. Get All Courses
 Method: GET
 Endpoint: /api/courses
 Description: Fetch a list of all courses.
-
 3. Get Course by ID
 Method: GET
 Endpoint: /api/courses/:courseId
@@ -91,12 +101,13 @@ Description: Fetch a specific course by its courseId.
 Path Parameter:
 courseId: The ID of the course to retrieve.
 Response:
+json
+Copy code
 {
   "courseId": "CS101",
   "courseName": "Computer Science 101",
   "description": "Introductory course to computer science."
 }
-
 4. Update Course
 Method: PUT
 Endpoint: /api/courses/:courseId
@@ -104,17 +115,16 @@ Description: Update an existing course.
 Path Parameter:
 courseId: The ID of the course to update.
 Request Body:
+json
+Copy code
 {
   "courseName": "Updated Course Name",
   "description": "Updated description"
 }
-
 5. Delete Course
 Method: DELETE
 Endpoint: /api/courses/:courseId
 Description: Delete a specific course by its courseId.
-
-
 Quizzes
 1. Create a Quiz for a Course
 Method: POST
@@ -123,6 +133,8 @@ Description: Create a new quiz for a course.
 Path Parameter:
 courseId: The ID of the course to associate the quiz with.
 Request Body:
+json
+Copy code
 {
   "questions": [
     {
@@ -134,6 +146,8 @@ Request Body:
   ]
 }
 Response:
+json
+Copy code
 {
   "courseId": "CS101",
   "questions": [
@@ -145,21 +159,18 @@ Response:
     }
   ]
 }
-
 2. Get All Quizzes for a Course
 Method: GET
 Endpoint: /api/courses/:courseId/quizzes
 Description: Fetch all quizzes for a specific course.
 Path Parameter:
 courseId: The ID of the course.
-
 3. Get a Specific Quiz
 Method: GET
 Endpoint: /api/quizzes/:quizId
 Description: Fetch a specific quiz by its quizId.
 Path Parameter:
 quizId: The ID of the quiz to retrieve.
-
 4. Check the Answer for a Question
 Method: GET
 
@@ -176,10 +187,11 @@ questionId: The ID of the question.
 answer: The provided answer.
 Response:
 
+json
+Copy code
 {
   "message": "Correct answer"
 }
-
 5. Delete a Quiz
 Method: DELETE
 Endpoint: /api/quizzes/:quizId
@@ -187,29 +199,40 @@ Description: Delete a quiz by its quizId.
 Path Parameter:
 quizId: The ID of the quiz to delete.
 Request/Response Examples
-
 1. Create a Course
 Request:
+
+bash
+Copy code
 POST /api/courses
 Body:
+
+json
+Copy code
 {
   "courseId": "CS101",
   "courseName": "Computer Science 101",
   "description": "Introductory course to computer science."
 }
-
 Response:
+
+json
+Copy code
 {
   "courseId": "CS101",
   "courseName": "Computer Science 101",
   "description": "Introductory course to computer science."
 }
-
 2. Create a Quiz for a Course
 Request:
+
+bash
+Copy code
 POST /api/courses/CS101/quizzes
 Body:
 
+json
+Copy code
 {
   "questions": [
     {
@@ -222,6 +245,8 @@ Body:
 }
 Response:
 
+json
+Copy code
 {
   "courseId": "CS101",
   "questions": [
@@ -246,13 +271,11 @@ This backend provides robust functionality for managing quizzes and courses, inc
 
 For additional information, please refer to the Swagger API Documentation.
 
+markdown
+Copy code
+
 ### Key Additions:
 - **MongoDB Connection**: Instructions on how to configure MongoDB connection using the `.env` file.
 - **.env.example**: A copy of the example `.env` file that the user should modify with their MongoDB URI.
 
 By following these setup instructions, the user can easily connect to MongoDB and run the backend locally or in the cloud.
-
-
-
-
-
