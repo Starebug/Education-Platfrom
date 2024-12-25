@@ -205,13 +205,15 @@ MONGO_URI=mongodb://localhost:27017/quiz-management
   "message": "Quiz deleted successfully"
 }
 ```
-Status Codes ⚠️
-200 - Success: Successful request completion\
-201 - Created: Resource successfully created\
-400 - Bad Request: Invalid request or parameters\
-404 - Not Found: Requested resource not found\
-500 - Server Error: Internal server error\
+## Error Handling ⚠️
 
+| Status Code | Description |
+|------------|-------------|
+| 200 | Success |
+| 201 | Resource Created |
+| 400 | Bad Request |
+| 404 | Not Found |
+| 500 | Server Error |
 Notes
 
 Check Swagger docs for detailed specifications\
